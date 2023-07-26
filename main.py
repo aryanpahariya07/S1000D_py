@@ -24,7 +24,7 @@ def upload_file():
             document_rels_path = 'uploads/'
             image_folder_path = 'uploads/'
             extract_docx_contents(file_path, document_xml_path, document_rels_path, image_folder_path)
-            subprocess.run([sys.executable, 'main.py'])
+            subprocess.run([sys.executable, 'convert.py'])
             return 'document.xml, document.xml.rels, and images extracted and saved successfully'
     return render_template('upload.html')
 
