@@ -1,5 +1,3 @@
-Certainly! Here's a README file for the provided code:
-
 # Word Document to S1000D XML Converter
 
 This Python application is designed to convert Microsoft Word documents (.docx) into S1000D XML format. S1000D is an international specification for technical publications, particularly in the aerospace and defense industries.
@@ -59,5 +57,3 @@ pip install Flask lxml
 - The conversion process assumes that the input Word document follows a specific structure, with headings and lists. You may need to adjust the code if your documents have a different structure.
 
 - The application uses Bootstrap for the user interface to make it more user-friendly.
-
-Please feel free to modify and extend this code as needed for your own projects or requirements.
