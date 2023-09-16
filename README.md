@@ -2,6 +2,10 @@
 
 This Python application is designed to convert Microsoft Word documents (.docx) into S1000D XML format. S1000D is an international specification for technical publications, particularly in the aerospace and defense industries.
 
+## Sample Demo Files
+
+A sample Word document (`sample.docx`) and its corresponding XML output (`sample.xml`) are included in the "DEMO" folder for reference. You can use these files to test the converter and understand the expected structure of the input and output files.
+
 ## Prerequisites
 
 Before using this converter, make sure you have the following prerequisites installed:
