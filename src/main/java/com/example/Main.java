@@ -42,8 +42,7 @@ public class Main {
         }
 
         String fileName = file.getOriginalFilename();
-        if (fileName == null || fileName.isEmpt
-        y()) {
+        if (fileName == null || fileName.isEmpty()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
 
