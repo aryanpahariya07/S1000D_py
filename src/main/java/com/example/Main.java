@@ -1,3 +1,5 @@
+package com.example;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,18 +12,21 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class Main {
+    
 
-    @Autowired
     private ProcessBuilder processBuilder;
 
     @GetMapping("/")
@@ -31,12 +36,14 @@ public class Main {
 
     @PostMapping("/")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        
         if (file.isEmpty()) {
             return new ResponseEntity<>("No file uploaded", HttpStatus.BAD_REQUEST);
         }
 
         String fileName = file.getOriginalFilename();
-        if (fileName == null || fileName.isEmpty()) {
+        if (fileName == null || fileName.isEmpt
+        y()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
 
@@ -48,8 +55,12 @@ public class Main {
                 String documentRelsPath = "uploads/";
                 String imageFolderPath = "uploads/";
                 extractDocxContents(filePath, documentXmlPath, documentRelsPath, imageFolderPath);
+                M2 m2=new M2();
+                m2.fun();
                 Process process = processBuilder.command(System.getProperty("java.home") + "/bin/java", "-Xmx512m", "-classpath", System.getProperty("java.class.path"), "Convert").start();
+                
                 int exitCode = process.waitFor();
+                
                 if (exitCode == 0) {
                     return new ResponseEntity<>("document.xml, document.xml.rels, and images extracted and saved successfully", HttpStatus.OK);
                 } else {
@@ -61,6 +72,7 @@ public class Main {
         } else {
             return new ResponseEntity<>("Invalid file type", HttpStatus.BAD_REQUEST);
         }
+        
     }
 
     private boolean isAllowedFile(String fileName) {

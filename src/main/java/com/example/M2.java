@@ -10,11 +10,11 @@ import java.util.*;
 
 public class M2 {
 
-    private static final String W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-    private static final String A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main";
-    private static final String REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships";
+    private final String W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+    private final String A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main";
+    private final String REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships";
 
-    public static String findImageTarget(String imageId, String relsFile) {
+    public String findImageTarget(String imageId, String relsFile) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
@@ -34,7 +34,7 @@ public class M2 {
         return null;
     }
 
-    public static void processTable(Element tableElement, NodeList trElements, Document doc) {
+    public void processTable(Element tableElement, NodeList trElements, Document doc) {
         Element tgroup = doc.createElement("tgroup");
         Element tbody = doc.createElement("tbody");
         Element thead = doc.createElement("thead");
@@ -86,8 +86,8 @@ public class M2 {
         tableElement.appendChild(tgroup);
     }
 
-    public static void main(String[] args) {
-        String docxXmlFile = "uploads/word/document.xml";
+    public void fun() {
+        String docxXmlFile = "uploads/document.xml";
         String s1000dXmlFile = "s1000d.xml";
 
         try {
@@ -260,7 +260,7 @@ public class M2 {
         }
     }
 
-    private static String getTextContent(Element element) {
+    private String getTextContent(Element element) {
         StringBuilder text = new StringBuilder();
         NodeList tElements = element.getElementsByTagNameNS(W_NS, "t");
         for (int i = 0; i < tElements.getLength(); i++) {
