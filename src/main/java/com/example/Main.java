@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -35,7 +36,7 @@ public class Main {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
         
         if (file.isEmpty()) {
             return new ResponseEntity<>("No file uploaded", HttpStatus.BAD_REQUEST);
@@ -45,29 +46,24 @@ public class Main {
         if (fileName == null || fileName.isEmpty()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
-        Path path = Paths.get("uploads/doc.");
-        try{Files.createFile(path);}
-        catch(IOException e)
+        try(InputStream inputStream=file.getInputStream()){
+            Files.copy(inputStream, Paths.get("uploads/doc.docx"),StandardCopyOption.REPLACE_EXISTING);
+        }
         if (isAllowedFile(fileName)) {
-            String filePath = "uploads/" + fileName;
+            String filePath = "uploads/doc.docx";
             try {
-                file.transferTo(new File(filePath));
                 String documentXmlPath = "uploads/";
                 String documentRelsPath = "uploads/";
                 String imageFolderPath = "uploads/";
                 extractDocxContents(filePath, documentXmlPath, documentRelsPath, imageFolderPath);
                 M2 m2=new M2();
                 m2.fun();
-                Process process = processBuilder.command(System.getProperty("java.home") + "/bin/java", "-Xmx512m", "-classpath", System.getProperty("java.class.path"), "Convert").start();
                 
-                int exitCode = process.waitFor();
                 
-                if (exitCode == 0) {
+            
                     return new ResponseEntity<>("document.xml, document.xml.rels, and images extracted and saved successfully", HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("Error occurred during conversion", HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            } catch (IOException | InterruptedException e) {
+                
+            } catch (IOException e) {
                 return new ResponseEntity<>("Error occurred during file processing", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
