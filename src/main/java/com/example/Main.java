@@ -45,7 +45,9 @@ public class Main {
         if (fileName == null || fileName.isEmpty()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
-
+        Path path = Paths.get("uploads/doc.");
+        try{Files.createFile(path);}
+        catch(IOException e)
         if (isAllowedFile(fileName)) {
             String filePath = "uploads/" + fileName;
             try {
